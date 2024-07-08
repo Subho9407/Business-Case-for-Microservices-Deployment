@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-microservice
+spec: 
+  replicas: 4
+  selector: 
+    matchExpressions: 
+    - key: app
+      operator: In
+      values: 
+      - dotnet-microservice
+  strategy: 
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template: 
+    metadata: 
+      labels: 
+        app : dotnet-microservice
+    spec: 
+      containers: 
+      - image: "<Image Name>"
+        env:
+        - name: CONNECTION_STRING
+          value: "<Database Connection String>"
+        ports: 
+        - containerPort: 80
